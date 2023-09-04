@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model clientes {
+  id              Int           @id @default(autoincrement()) @db.UnsignedInt
+  nome            String        @db.VarChar(255)
+  cpf             String        @unique(map: "clientes_cpf_unique") @db.VarChar(11)
+  email           String        @unique(map: "clientes_email_unique") @db.VarChar(255)
+  primeira_compra Boolean?
+  created_at      DateTime?     @default(now())
+  updated_at      DateTime?     @updatedAt 
+  venda_items     venda_items[]
+  vendas          vendas[]
+}
+
+model produtos {
+  id              Int           @id @default(autoincrement()) @db.UnsignedInt
+  nome            String        @db.VarChar(255)
+  descricao       String        @db.VarChar(255)
+  valor           Decimal       @db.Decimal(10, 2)
+  link            String?       @default("") @db.VarChar(255)
+  disponivel      Boolean?
+  qtd_estoque     Int?          @db.Int           
+  created_at      DateTime?     @default(now()) @db.Timestamp(0)
+  updated_at      DateTime?     @updatedAt @db.Timestamp(0)
+  tipo_produto_id Int           @db.UnsignedInt
+  tipo_produto    tipo_produto  @relation(fields: [tipo_produto_id], references: [id], onDelete: Cascade, map: "produtos_tipo_produto_id_foreign")
+  venda_items     venda_items[]
+
+  @@index([tipo_produto_id], map: "produtos_tipo_produto_id_foreign")
+}
+
+model tipo_produto {
+  id         Int        @id @default(autoincrement()) @db.UnsignedInt
+  nome       String     @db.VarChar(255)
+  descricao  String     @db.VarChar(255)
+  tipo       String     @db.VarChar(50)
+  produtos   produtos[]
+}
+
+model users {
+  id                Int       @id @default(autoincrement()) @db.UnsignedInt
+  name              String    @db.VarChar(255)
+  email             String    @unique(map: "users_email_unique") @db.VarChar(255)
+  email_verified_at DateTime? @db.Timestamp(0)
+  password          String    @db.VarChar(255)
+  remember_token    String?   @db.VarChar(100)
+}
+
+model venda_items {
+  id             Int       @id @default(autoincrement()) @db.UnsignedInt
+  quantidade     Int
+  valor_unitario Decimal   @db.Decimal(10, 2)
+  valor_total    Decimal   @db.Decimal(10, 2)
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @updatedAt @db.Timestamp(0)
+  venda_id       Int       @db.UnsignedInt
+  cliente_id     Int       @db.UnsignedInt
+  produto_id     Int       @db.UnsignedInt
+  clientes       clientes  @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "venda_items_cliente_id_foreign")
+  produtos       produtos  @relation(fields: [produto_id], references: [id], onDelete: Cascade, map: "venda_items_produto_id_foreign")
+  vendas         vendas    @relation(fields: [venda_id], references: [id], onDelete: Cascade, map: "venda_items_venda_id_foreign")
+
+  @@index([cliente_id], map: "venda_items_cliente_id_foreign")
+  @@index([produto_id], map: "venda_items_produto_id_foreign")
+  @@index([venda_id], map: "venda_items_venda_id_foreign")
+}
+
+model vendas {
+  id          Int           @id @default(autoincrement()) @db.UnsignedInt
+  descricao   String        @db.VarChar(255)
+  data_venda  DateTime      @db.DateTime(0)
+  valor_total Decimal       @db.Decimal(10, 2)
+  created_at  DateTime?     @default(now()) @db.Timestamp(0)
+  updated_at  DateTime?     @updatedAt @db.Timestamp(0)
+  cliente_id  Int           @db.UnsignedInt
+  venda_items venda_items[]
+  clientes    clientes      @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "vendas_cliente_id_foreign")
+
+  @@index([cliente_id], map: "vendas_cliente_id_foreign")
+}
+
+// model failed_jobs {
+//   id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+//   uuid       String   @unique(map: "failed_jobs_uuid_unique") @db.VarChar(255)
+//   connection String   @db.Text
+//   queue      String   @db.Text
+//   payload    String   @db.LongText
+//   exception  String   @db.LongText
+//   failed_at  DateTime @default(now()) @db.Timestamp(0)
+// }
+
+// model migrations {
+//   id        Int    @id @default(autoincrement()) @db.UnsignedInt
+//   migration String @db.VarChar(255)
+//   batch     Int
+// }
+
+// model password_reset_tokens {
+//   email      String    @id @db.VarChar(255)
+//   token      String    @db.VarChar(255)
+//   created_at DateTime? @db.Timestamp(0)
+// }
+
+// model personal_access_tokens {
+//   id             BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+//   tokenable_type String    @db.VarChar(255)
+//   tokenable_id   BigInt    @db.UnsignedBigInt
+//   name           String    @db.VarChar(255)
+//   token          String    @unique(map: "personal_access_tokens_token_unique") @db.VarChar(64)
+//   abilities      String?   @db.Text
+//   last_used_at   DateTime? @db.Timestamp(0)
+//   expires_at     DateTime? @db.Timestamp(0)
+//   created_at     DateTime? @db.Timestamp(0)
+//   updated_at     DateTime? @db.Timestamp(0)
+
+//   @@index([tokenable_type, tokenable_id], map: "personal_access_tokens_tokenable_type_tokenable_id_index")
+// }
