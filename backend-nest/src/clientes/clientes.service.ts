@@ -25,7 +25,7 @@ export class ClientesService {
     return this.prisma.clientes.findMany({
       select: { id: true, nome: true, cpf: true, email: true },
       orderBy: { nome: "asc" },
-    });//
+    });
   }
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {

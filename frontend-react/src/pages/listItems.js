@@ -38,7 +38,7 @@ export const mainListItems = (
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrações" />
+      <ListItemText primary="GraphQL" />
     </ListItemButton>
   </React.Fragment>
 );

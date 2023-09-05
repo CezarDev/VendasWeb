@@ -22,7 +22,7 @@ export class ClientesController {
 
   @Get()
   async findAll() {
-    return { clientes: await this.clientesService.findAll() };
+    return await this.clientesService.findAll();
   }
 
   @Get(":id")
