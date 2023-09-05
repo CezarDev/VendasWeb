@@ -16,6 +16,7 @@ async function bootstrap() {
   //app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new UnauthorizedInterceptor());
   app.useGlobalInterceptors(new NotFoundInterceptor());
-  await app.listen(process.env.PORT || 3000);
+  app.enableCors();
+  await app.listen(process.env.PORT || 3030);
 }
 bootstrap();

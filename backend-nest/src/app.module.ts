@@ -14,10 +14,10 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo"
     VendasModule,
     ClientesModule,
     ProdutosModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      playground: false,
-    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   playground: false,
+    // }),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,26 +17,27 @@ const MenuProps = {
   },
 };
 
-const produtos = [
-  'Simples',
-  'Digital',
-  'Configurável',
-  'Agrupado',
-  'Composto',
-];
-
 function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
+  if(personName) {
+    return {
+      fontWeight:
+          personName.indexOf(name) === -1
+              ? theme.typography.fontWeightRegular
+              : theme.typography.fontWeightMedium,
+    };
+  }
 }
 
 const TipoDeProdutosSelect = ({ value, onChange }) => {
-  const theme = useTheme();
+  const [valor, setValor] = useState([])
 
+  const produtos = [
+    'Simples',
+    'Digital',
+    'Configurável',
+    'Agrupado',
+    'Composto',
+  ];
   const handleChange = (event) => {
     const {
       target: { value },
@@ -51,16 +52,15 @@ const TipoDeProdutosSelect = ({ value, onChange }) => {
         labelId="tipo-produtos-label"
         id="tipo-produtos-select"
         multiple
-        value={value}
-        onChange={handleChange}
-        input={<OutlinedInput label="Tipo de Produto" />}
+        value={valor}
+        onChange={setValor}
         MenuProps={MenuProps}
       >
         {produtos.map((produto) => (
           <MenuItem
             key={produto}
             value={produto}
-            style={getStyles(produto, value, theme)}
+            // style={getStyles(produto, value, theme)}
           >
             {produto}
           </MenuItem>

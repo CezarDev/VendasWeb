@@ -19,9 +19,9 @@ const CadastroProdutos = () => {
     <Container>
       <Paper elevation={3} sx={{ padding: 2, marginTop: 4 }}>
         <Typography variant="h4" gutterBottom>
-          Cadastro de Cliente
+          Cadastro de Produto
         </Typography>
-        <FormControl onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -59,7 +59,7 @@ const CadastroProdutos = () => {
               </Button>
             </Grid>
           </Grid>
-        </FormControl>
+        </form>
       </Paper>
     </Container>
   );

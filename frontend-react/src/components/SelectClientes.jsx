@@ -12,6 +12,19 @@ export default function SelectClientes({ clientes, label}) {
 //     onChange(event.target.value);
 //   };
 
+    var clientes = [
+        'Oliver Hansen',
+        'Van Henry',
+        'April Tucker',
+        'Ralph Hubbard',
+        'Omar Alexander',
+        'Carlos Abbott',
+        'Miriam Wagner',
+        'Bradley Wilkerson',
+        'Virginia Andrews',
+        'Kelly Snyder',
+    ];
+
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 300 }}>
